@@ -1,0 +1,112 @@
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+$small: 376px !default;
+$phone: 480px !default;
+$tablet: 768px !default;
+$desktop: 1160px !default;
+$large: 1400px !default;
+$fullhd: 1920px !default;
+
+@mixin from($device) {
+  @media screen and (min-width: $device) {
+    @content;
+  }
+}
+
+@mixin container-from($container-name, $min-width) {
+  @container #{$container-name} (min-width: #{$min-width}) {
+    @content;
+  }
+}
+
+@mixin until($device) {
+  @media screen and (max-width: $device - 1px) {
+    @content;
+  }
+}
+
+@mixin container-until($container-name, $max-width) {
+  @container #{$container-name} (max-width: #{$max-width}) {
+    @content;
+  }
+}
+
+@mixin between($deviceA, $deviceB) {
+  @media screen and (min-width: $deviceA) and (max-width: $deviceB - 1px) {
+    @content;
+  }
+}
+
+@mixin small-max {
+  @media screen and (max-width: $small) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @media screen and (min-width: $phone) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media screen and (min-width: $tablet), print {
+    @content;
+  }
+}
+@mixin tablet-only {
+  @media screen and (min-width: $tablet) and (max-width: $desktop - 1px) {
+    @content;
+  }
+}
+@mixin touch {
+  @media screen and (max-width: $desktop - 1px) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media screen and (min-width: $desktop) {
+    @content;
+  }
+}
+@mixin desktop-only {
+  @if $widescreen-enabled {
+    @media screen and (min-width: $desktop) and (max-width: $large - 1px) {
+      @content;
+    }
+  }
+}
+@mixin until-widescreen {
+  @if $widescreen-enabled {
+    @media screen and (max-width: $large - 1px) {
+      @content;
+    }
+  }
+}
+@mixin widescreen {
+  @if $widescreen-enabled {
+    @media screen and (min-width: $large) {
+      @content;
+    }
+  }
+}
+@mixin widescreen-only {
+  @if $widescreen-enabled and $fullhd-enabled {
+    @media screen and (min-width: $large) and (max-width: $fullhd - 1px) {
+      @content;
+    }
+  }
+}
+@mixin until-fullhd {
+  @if $fullhd-enabled {
+    @media screen and (max-width: $fullhd - 1px) {
+      @content;
+    }
+  }
+}
+@mixin fullhd {
+  @if $fullhd-enabled {
+    @media screen and (min-width: $fullhd) {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,116 @@
+// ---------------------------------------------------------------------
+// Scaffolding
+// ---------------------------------------------------------------------
+
+// HTML Reset Styles
+// -------------------------
+body,
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  background-color: $body-bg;
+  min-height: 100%;
+  font-family: $ff;
+  line-height: $lh-base;
+  color: $text-color;
+  font-size: $fs-md;
+  * {
+    box-sizing: border-box;
+  }
+}
+
+a {
+  color: $text-color;
+  text-decoration: none;
+  &:hover {
+    color: $text-color;
+    text-decoration: none;
+  }
+}
+
+.link-underline {
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+p {
+  margin: 0 0 var(--space-md);
+}
+
+strong,
+b {
+  font-family: $ff;
+  font-weight: 700;
+}
+
+small {
+  font-size: $fs-xs;
+}
+
+hr {
+  border: none;
+  border-top: 3px solid $g3;
+  margin: var(--space-xxl) 0;
+  height: 3px;
+  &.hr-small {
+    margin: 3rem 0 0;
+    height: 0;
+    border-width: 1px;
+    border-color: $text-color;
+  }
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+// Loading Spinner
+// ---------------------------
+.loading-spinner {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border-width: 0.3rem;
+  border-style: solid;
+  border-color: $text-color transparent $text-color transparent;
+  transition: opacity 0.3s ease-in-out;
+  animation: loading-ani 1.2s linear infinite;
+  opacity: 0.7;
+  pointer-events: none;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@keyframes loading-ani {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// ################################################# MQ #######################################################
+
+// Till Desktop
+// -------------------------
+@include until($desktop) {
+}
+
+// From Desktop
+// -------------------------
+@include from($desktop) {
+}

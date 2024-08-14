@@ -1,0 +1,96 @@
+// ---------------------------------------------------------------------
+// Custom Variables
+// ---------------------------------------------------------------------
+
+// Grays
+// -------------------------
+$g1: #fafafa;
+$g2: #efefef;
+$g3: #e3e3e3;
+$g4: #cdcdcd;
+$g5: #959595;
+$g6: #6e6e6e;
+$g7: #333333;
+
+// Scaffolding
+// -------------------------
+$body-bg: white;
+$text-color: #000;
+$link-color: #0071ef; // Random BF Color (1:4.5)
+$text-max-width: 50rem;
+
+// Font Family
+// -------------------------
+$ff: "OpenSans", sans-serif, Arial, Verdana;
+
+// Font Size (Till Tablet)
+// -------------------------
+:root {
+  --fs-base: 1rem;
+  --fs-xss: calc(0.625 * var(--fs-base));
+  --fs-xs: calc(0.75 * var(--fs-base));
+  --fs-sm: calc(0.875 * var(--fs-base));
+  --fs-md: calc(1.125 * var(--fs-base));
+  --fs-lg: calc(1.25 * var(--fs-base));
+  --fs-xl: calc(1.5 * var(--fs-base));
+  --fs-xxl: calc(2 * var(--fs-base));
+  --fs-xxxl: calc(2.25 * var(--fs-base));
+}
+
+@include from($tablet) {
+  :root {
+    --fs-xss: calc(0.75 * var(--fs-base));
+    --fs-xs: calc(0.875 * var(--fs-base));
+    --fs-sm: var(--fs-base);
+    --fs-md: calc(1.25 * var(--fs-base));
+    --fs-lg: calc(1.5 * var(--fs-base));
+    --fs-xl: calc(2.125 * var(--fs-base));
+    --fs-xxl: calc(3 * var(--fs-base));
+    --fs-xxxl: calc(4 * var(--fs-base));
+  }
+}
+
+$fs-xxs: var(--fs-xss); // M: 10px | DT: 12px
+$fs-xs: var(--fs-xs); // M: 12px | DT: 14px
+$fs-sm: var(--fs-sm); // M: 14px | DT: 16px
+$fs-md: var(--fs-md); // M: 18px | DT: 20px
+$fs-lg: var(--fs-lg); // M: 20px | DT: 24px
+$fs-xl: var(--fs-xl); // M: 24px | DT: 34px
+$fs-xxl: var(--fs-xxl); // M: 32px | DT: 58px
+$fs-xxxl: var(--fs-xxxl); // M: 36px | DT: 72px
+
+$lh-xs: 1.2;
+$lh-base: 1.5;
+$lh-lg: 1.75;
+
+// Space
+// -----------------------------
+:root {
+  --space-xxs: 0.25rem; // 4px
+  --space-xs: 0.5rem; // 8px
+  --space-sm: 0.75rem; // 12px
+  --space-md: 1rem; // 16px
+  --space-lg: 1.5rem; // 24px
+  --space-xl: 2rem; // 32px
+  --space-xxl: 3rem; // 48px
+  --space-xxxl: 6.25rem; // 100px
+}
+
+// Default
+// -----------------------------
+
+// Border Radius
+$border-radius: 0.625rem; // 10px
+
+// Box Shadow
+$box-shadow: 0.25rem 0.25rem 0 0 #{$text-color};
+$box-shadow-header: 0rem -0.6rem 0.9rem 0 #{$text-color};
+
+// Transition
+:root {
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --easing-accelerated: cubic-bezier(0.4, 0, 1, 1);
+  --easing-decelerated: cubic-bezier(0, 0, 0.2, 1);
+}
+$transition: all 0.2s var(--easing-standard);

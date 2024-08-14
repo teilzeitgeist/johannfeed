@@ -1,0 +1,46 @@
+$font-face-path: "fonts";
+
+@font-face {
+  font-family: "OpenSans";
+  font-weight: 400;
+  font-style: normal;
+  src:
+    url("#{$font-face-path}/opensans/open-sans-regular.woff2") format("woff2"),
+    url("#{$font-face-path}/opensans/open-sans-regular.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "OpenSans";
+  font-weight: 500;
+  font-style: normal;
+  src:
+    url("#{$font-face-path}/opensans/open-sans-500.woff2") format("woff2"),
+    url("#{$font-face-path}/opensans/open-sans-500.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "OpenSans";
+  font-weight: 600;
+  font-style: normal;
+  src:
+    url("#{$font-face-path}/opensans/open-sans-600.woff2") format("woff2"),
+    url("#{$font-face-path}/opensans/open-sans-600.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "OpenSans";
+  font-weight: 700;
+  font-style: normal;
+  src:
+    url("#{$font-face-path}/opensans/open-sans-700.woff2") format("woff2"),
+    url("#{$font-face-path}/opensans/open-sans-700.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "OpenSans";
+  font-weight: 800;
+  font-style: normal;
+  src:
+    url("#{$font-face-path}/opensans/open-sans-800.woff2") format("woff2"),
+    url("#{$font-face-path}/opensans/open-sans-800.ttf") format("ttf");
+}
