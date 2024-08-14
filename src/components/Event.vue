@@ -1,5 +1,5 @@
 <template>
-  <div class="event" :class="{'event--longer': isLongEvent}">
+  <div class="event" :class="{ 'event--longer': isLongEvent }">
     <div class="event__date" :class="getCategoryColor()">
       <span class="day">{{ day }}</span>
       <span class="month">{{ month }}</span>
@@ -23,8 +23,8 @@
 
 <script lang="ts" setup>
 import { XMLParser } from "fast-xml-parser";
-import dayjs from 'dayjs';
-import {ref} from "vue";
+import dayjs from "dayjs";
+import { ref } from "vue";
 
 const props = defineProps(["event"]);
 
@@ -69,7 +69,7 @@ let image = meta[4];
 
 let isImage = image.length > 0;
 
-let day = ref('');
+let day = ref("");
 let month = ref(dayjs(props.event.pubDate).format("MMM"));
 let isLongEvent = ref(false);
 
@@ -91,21 +91,21 @@ const parseTime = () => {
   let time = "";
   const timeSplit = meta[0].split("-");
   if (timeSplit && timeSplit.length > 1) {
-      // Überspannendes Event
-      if(timeSplit.length === 4) {
-          isLongEvent.value = true;
-          const firstDay = dayjs(timeSplit[0], ['D.MMMM YYYY'], 'de');
-          const secondDay = dayjs(timeSplit[1], ['D.MMMM YYYY'], 'de');
-          day.value = firstDay.date() + '–' + secondDay.date();
+    // Überspannendes Event
+    if (timeSplit.length === 4) {
+      isLongEvent.value = true;
+      const firstDay = dayjs(timeSplit[0], ["D.MMMM YYYY"], "de");
+      const secondDay = dayjs(timeSplit[1], ["D.MMMM YYYY"], "de");
+      day.value = firstDay.date() + "–" + secondDay.date();
 
-          if(!firstDay.isSame(secondDay, 'month')) {
-              month.value = firstDay.format("MMM") + '-' + secondDay.format("MMM");
-          }
-          time = timeSplit[2] + " – " + timeSplit[3];
-      } else {
-          day.value = dayjs(props.event.pubDate).date().toString();
-          time = timeSplit[1] + " – " + timeSplit[2];
+      if (!firstDay.isSame(secondDay, "month")) {
+        month.value = firstDay.format("MMM") + "-" + secondDay.format("MMM");
       }
+      time = timeSplit[2] + " – " + timeSplit[3];
+    } else {
+      day.value = dayjs(props.event.pubDate).date().toString();
+      time = timeSplit[1] + " – " + timeSplit[2];
+    }
   }
   return time;
 };
@@ -157,9 +157,9 @@ init();
 }
 
 .event--longer {
-    .event__date {
-        min-width: max-content;
-    }
+  .event__date {
+    min-width: max-content;
+  }
 }
 
 .event img {

@@ -15,7 +15,10 @@
       />
     </transition-group>
   </div>
-  <div v-else>Nichts geladen</div>
+  <div v-else class="empty">
+    <div class="text">Fehler beim Laden</div>
+    <div class="loading-spinner"></div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -35,6 +38,7 @@ const eventsPerPage = ref(6);
 
 onMounted(async () => {
   const { data } = await axios.get("http://localhost:5173/feed.xml");
+  //const { data } = await axios.get("https://www.johannstadt.de/feed");
 
   const xmlParser = new XMLParser();
   const { rss } = xmlParser.parse(data);
@@ -103,5 +107,19 @@ const onLeave = (el, done) => {
   gap: var(--space-lg);
   position: relative;
   overflow: hidden;
+}
+
+.empty {
+  margin: var(--space-xxl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  .text {
+    margin-bottom: var(--space-lg);
+    font-weight: 700;
+    font-size: var(--fs-lg);
+  }
 }
 </style>
