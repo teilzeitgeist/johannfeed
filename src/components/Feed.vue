@@ -55,7 +55,7 @@ const updateVisibleEvents = () => {
         currentIndex.value,
         currentIndex.value + eventsPerPage.value,
     );
-    if (!init.value) visibleEvents.value = visibleEvents.value.slice().reverse();
+    if (!init.value) visibleEvents.value = visibleEvents.value.slice();
 };
 
 const nextPage = () => {
@@ -102,10 +102,9 @@ const onLeave = (el, done) => {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-auto-flow: row;
-    padding: var(--space-lg);
-    gap: var(--space-lg);
     position: relative;
     overflow: hidden;
+    height: 100dvh;
 }
 
 .empty {

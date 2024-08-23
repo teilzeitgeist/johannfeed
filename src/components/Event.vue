@@ -1,6 +1,6 @@
 <template>
-    <div class="event" :class="{ 'event--longer': isLongEvent }">
-        <div class="event__date" :class="getCategoryColor()">
+    <div :class="[{'event--longer': isLongEvent}, getCategoryColor()]">
+        <div class="event__date">
             <span class="day">{{ day }}</span>
             <span class="month">{{ month }}</span>
         </div>
@@ -31,35 +31,35 @@ const props = defineProps(["event"]);
 const categoryColors = [
     {
         category: "begegnung",
-        color: "red",
+        color: "meeting",
     },
     {
         category: "nachbarschaftshilfe",
-        color: "red",
+        color: "help",
     },
     {
         category: "kurs",
-        color: "blue",
+        color: "course",
     },
     {
         category: "beratung",
-        color: "blue",
+        color: "consulting",
     },
     {
         category: "sport-spiel",
-        color: "yellow",
+        color: "game",
     },
     {
         category: "jugendangebot",
-        color: "yellow",
+        color: "youth",
     },
     {
         category: "kinderangebot",
-        color: "yellow",
+        color: "kids",
     },
     {
         category: "stadtteilspaziergang",
-        color: "green",
+        color: "walk",
     },
 ];
 
@@ -152,15 +152,41 @@ init();
 <style lang="scss">
 .event {
     display: flex;
-    margin-bottom: var(--space-lg);
     gap: var(--space-lg);
-    border: 2px solid var(--c1200);
-    border-radius: var(--space-xs);
-}
+    background-color: var(--c2000);
+    padding: var(--space-xl);
+    align-items: center;
 
-.event--longer {
-    .event__date {
-        min-width: max-content;
+    &.help {
+        background-color: var(--c4000);
+    }
+
+    &.course {
+        background-color: var(--c4100);
+    }
+
+    &.meeting {
+        background-color: var(--c5000);
+    }
+
+    &.consulting {
+        background-color: var(--c5100);
+    }
+
+    &.walk {
+        background-color: var(--c7000);
+    }
+
+    &.game {
+        background-color: var(--c7100);
+    }
+
+    &.youth {
+        background-color: var(--c6000);
+    }
+
+    &.kids {
+        background-color: var(--c6100);
     }
 }
 
@@ -173,8 +199,7 @@ init();
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--c2000);
-    min-width: 120px;
+    min-width: 11rem;
     border-radius: var(--space-xs) 0 0 var(--space-xs);
     padding: var(--space-md);
 
@@ -185,22 +210,6 @@ init();
 
     .month {
         font-size: var(--fs-lg);
-    }
-
-    &.red {
-        background-color: var(--c4000);
-    }
-
-    &.blue {
-        background-color: var(--c5000);
-    }
-
-    &.green {
-        background-color: var(--c7000);
-    }
-
-    &.yellow {
-        background-color: var(--c6000);
     }
 }
 
