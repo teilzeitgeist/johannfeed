@@ -18,7 +18,6 @@
             </div>
         </div>
     </div>
-    <!--<img :src="image.img.src" v-if="isImage && image" :alt="image.img.alt"/>-->
 </template>
 
 <script lang="ts" setup>
