@@ -16,6 +16,13 @@
                     :data-index="index"
                     class="event panel"
                 />
+                <div class="more-infos">
+                    <img src="/qr-johannstadt.svg">
+                    <div class="more-infos__text">
+                        <span class="label">Das ganze Viertel auf</span>
+                        <span class="url">www.johannstadt.de</span>
+                    </div>
+                </div>
             </div>
         </div>
         </Flicking>
@@ -35,13 +42,13 @@ import Flicking from "@egjs/vue3-flicking";
 import { AutoPlay, Perspective } from "@egjs/flicking-plugins";
 
 // AutoPlay-Plugin für den Slider
-const plugins = [new AutoPlay({ duration: 15000, direction: "NEXT", stopOnHover: false }), new Perspective({ rotate: -1, scale: 2, perspective: 600 })];
+const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover: false }), new Perspective({ rotate: -1, scale: 2, perspective: 600 })];
 
 let events = ref([]);
 
 onMounted(async () => {
-    //const { data } = await axios.get("http://localhost:5173/feed.xml");
-    const { data } = await axios.get("https://www.johannstadt.de/events/feed");
+    const { data } = await axios.get("http://localhost:5173/feed.xml");
+    //const { data } = await axios.get("https://www.johannstadt.de/events/feed");
 
     const xmlParser = new XMLParser();
     const { rss } = xmlParser.parse(data);
@@ -72,7 +79,7 @@ const onMove = async (event) => {
 
 
 const chunkedEvents = computed(() => {
-    const chunkSize = 6;
+    const chunkSize = 5;
     const chunks: Event[][] = [];
     for (let i = 0; i < events.value.length; i += chunkSize) {
         chunks.push(events.value.slice(i, i + chunkSize));
@@ -122,6 +129,28 @@ const chunkedEvents = computed(() => {
         margin-bottom: var(--space-lg);
         font-weight: 700;
         font-size: var(--fs-lg);
+    }
+}
+
+.more-infos {
+    display: flex;
+    align-items: center;
+    margin: var(--space-xl);
+    img {
+        margin-right: 8rem;
+        height: 70%;
+        border-radius: var(--space-xs);
+    }
+    .more-infos__text {
+        display: flex;
+        flex-direction: column;
+        .label {
+            font-size: var(--fs-xl);
+        }
+        .url {
+            font-size: var(--fs-xl);
+            font-weight: 700;
+        }
     }
 }
 </style>

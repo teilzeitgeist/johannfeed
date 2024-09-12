@@ -1,6 +1,6 @@
 <template>
-    <div :class="[{'event--longer': isLongEvent}, getCategoryColor()]">
-        <div class="event__date">
+    <div :class="[{'event--longer': isLongEvent}]">
+        <div class="event__date" :class="getCategoryColor()">
             <span class="day">{{ day }}</span>
             <span class="month">{{ month }}</span>
         </div>
@@ -95,10 +95,10 @@ const parseTime = () => {
             isLongEvent.value = true;
             const firstDay = dayjs(timeSplit[0], ["D.MMMM YYYY"], "de");
             const secondDay = dayjs(timeSplit[1], ["D.MMMM YYYY"], "de");
-            day.value = firstDay.date() + "–" + secondDay.date();
+            day.value = firstDay.date() + " – " + secondDay.date();
 
             if (!firstDay.isSame(secondDay, "month")) {
-                month.value = firstDay.format("MMM") + "-" + secondDay.format("MMM");
+                month.value = firstDay.format("MMM") + " - " + secondDay.format("MMM");
             }
             time = timeSplit[2] + " – " + timeSplit[3];
         } else {
@@ -142,7 +142,7 @@ const parseCategories = () => {
 const getCategoryColor = () => {
     const categories = parseCategories();
     const cat = categoryColors.find((cat) => categories.includes(cat.category));
-    return cat ? cat.color : "";
+    return cat ? cat.color : "none";
 };
 
 init();
@@ -151,10 +151,35 @@ init();
 <style lang="scss">
 .event {
     display: flex;
-    gap: var(--space-lg);
-    background-color: var(--c2000);
-    padding: var(--space-xl);
+    background-color: rgba(255,255,255,0.75);
+    margin: var(--space-xl);
     align-items: center;
+    //box-shadow: 0 0 42px -32px rgba(0, 0, 0, 0.45);
+    border-radius: var(--space-xs);
+}
+
+.event img {
+    max-height: 500px;
+}
+
+.event__date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 18rem;
+    height: 100%;
+    border-radius: var(--space-xs) 0 0 var(--space-xs);
+    padding: var(--space-md);
+
+    .day {
+        font-size: var(--fs-xxl);
+        font-weight: 700;
+    }
+
+    .month {
+        font-size: var(--fs-lg);
+    }
 
     &.help {
         background-color: var(--c4000);
@@ -187,36 +212,17 @@ init();
     &.kids {
         background-color: var(--c6100);
     }
-}
 
-.event img {
-    max-height: 500px;
-}
-
-.event__date {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 11rem;
-    border-radius: var(--space-xs) 0 0 var(--space-xs);
-    padding: var(--space-md);
-
-    .day {
-        font-size: var(--fs-xl);
-        font-weight: 700;
-    }
-
-    .month {
-        font-size: var(--fs-lg);
+    &.none {
+        box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.08)
     }
 }
 
 .event__infos {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-md) 0;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-xl);
 }
 
 .event__title {
