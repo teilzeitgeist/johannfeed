@@ -17,7 +17,7 @@
                     class="event panel"
                 />
                 <div class="more-infos">
-                    <img src="/qr-johannstadt.svg">
+                    <img src="@/assets/qr-johannstadt.svg">
                     <div class="more-infos__text">
                         <span class="label">Das ganze Viertel auf</span>
                         <span class="url">www.johannstadt.de</span>
@@ -47,8 +47,8 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 let events = ref([]);
 
 onMounted(async () => {
-    const { data } = await axios.get("http://localhost:5173/feed.xml");
-    //const { data } = await axios.get("https://www.johannstadt.de/events/feed");
+    //const { data } = await axios.get("http://localhost:5173/feed.xml");
+    const { data } = await axios.get("https://www.johannstadt.de/events/feed");
 
     const xmlParser = new XMLParser();
     const { rss } = xmlParser.parse(data);
