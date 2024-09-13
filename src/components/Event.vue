@@ -151,11 +151,9 @@ init();
 <style lang="scss">
 .event {
     display: flex;
-    background-color: rgba(255,255,255,0.75);
     margin: var(--space-xl);
     align-items: center;
-    //box-shadow: 0 0 42px -32px rgba(0, 0, 0, 0.45);
-    border-radius: var(--space-xs);
+    box-shadow: 0 0 42px -32px rgba(0, 0, 0, 0.45);
 }
 
 .event img {
@@ -169,8 +167,9 @@ init();
     align-items: center;
     min-width: 18rem;
     height: 100%;
+    background-color: #FFF;
     border-radius: var(--space-xs) 0 0 var(--space-xs);
-    padding: var(--space-md);
+    box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.08);
 
     .day {
         font-size: var(--fs-xxl);
@@ -181,7 +180,7 @@ init();
         font-size: var(--fs-lg);
     }
 
-    &.help {
+    /*&.help {
         background-color: var(--c4000);
     }
 
@@ -211,11 +210,7 @@ init();
 
     &.kids {
         background-color: var(--c6100);
-    }
-
-    &.none {
-        box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.08)
-    }
+    }*/
 }
 
 .event__infos {
@@ -223,6 +218,10 @@ init();
     flex-direction: column;
     gap: var(--space-md);
     padding: var(--space-md) var(--space-xl);
+    background-color: rgba(255,255,255,0.65);
+    border-radius: 0 var(--space-xs) var(--space-xs) 0;
+    height: 100%;
+    width: 100%;
 }
 
 .event__title {
