@@ -3,7 +3,7 @@
         <!-- Flicking-Komponente mit AutoPlay und Animationen -->
         <Flicking
             v-if="chunkedEvents.length > 0"
-            :options="{ defaultIndex: 0, duration: 400, align: 'prev', overflow: true, circular: true }"
+            :options="{ defaultIndex: 0, duration: 400, align: 'prev', circular: true }"
             :plugins="plugins"
             @moveStart="onMove"
         >
@@ -33,7 +33,7 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="js" setup>
 import { ref, onMounted, computed, nextTick } from "vue";
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
@@ -80,7 +80,7 @@ const onMove = async (event) => {
 
 const chunkedEvents = computed(() => {
     const chunkSize = 5;
-    const chunks: Event[][] = [];
+    const chunks = [];
     for (let i = 0; i < events.value.length; i += chunkSize) {
         chunks.push(events.value.slice(i, i + chunkSize));
     }

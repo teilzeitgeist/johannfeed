@@ -80,6 +80,6 @@ export default [
 
   // ignore files
   {
-    ignores: ["public/**/*", "vite.config.ts"],
+    ignores: ["public/**/*", "vite.config.js"],
   },
 ];

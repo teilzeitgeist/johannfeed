@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="js" setup>
 import {XMLParser} from "fast-xml-parser";
 import dayjs from "dayjs";
 import {ref} from "vue";
@@ -127,7 +127,7 @@ const parseCategories = () => {
     let parsedHtml = parser.parseFromString(meta[4], "text/html");
     let items = parsedHtml.querySelectorAll("ul li a");
     let categories = [];
-    items.forEach((item: HTMLAnchorElement) => {
+    items.forEach((item) => {
         let category = item.href.split("categories/")[1];
         if (category && category.length > 0) {
             category = category.split("/")[0];
