@@ -179,38 +179,6 @@ init();
     .month {
         font-size: var(--fs-lg);
     }
-
-    /*&.help {
-        background-color: var(--c4000);
-    }
-
-    &.course {
-        background-color: var(--c4100);
-    }
-
-    &.meeting {
-        background-color: var(--c5000);
-    }
-
-    &.consulting {
-        background-color: var(--c5100);
-    }
-
-    &.walk {
-        background-color: var(--c7000);
-    }
-
-    &.game {
-        background-color: var(--c7100);
-    }
-
-    &.youth {
-        background-color: var(--c6000);
-    }
-
-    &.kids {
-        background-color: var(--c6100);
-    }*/
 }
 
 .event__infos {
