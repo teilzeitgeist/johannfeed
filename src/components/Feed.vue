@@ -42,7 +42,7 @@ import Flicking from "@egjs/vue3-flicking";
 import { AutoPlay, Perspective } from "@egjs/flicking-plugins";
 
 // AutoPlay-Plugin für den Slider
-const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover: false }), new Perspective({ rotate: -1, scale: 2, perspective: 600 })];
+const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover: false }), new Perspective({ rotate: -1, scale: 2})];
 
 let events = ref([]);
 
@@ -65,7 +65,7 @@ const onMove = async (event) => {
         el.element.querySelectorAll('.panel').forEach((e) => {
             e.animate({
                 opacity: [0, 1],
-                transform: ["scaleX(0) scaleY(0) translateX(200px)", "scaleX(1) scaleY(1) translateX(0)"],
+                transform: ["scaleX(0) scaleY(0) translateX(3.5rem)", "scaleX(1) scaleY(1) translateX(0)"],
             }, {
                 duration: Math.ceil(Math.random() * (600 - 400) + 400),
                 direction: 'normal',
@@ -129,7 +129,7 @@ const chunkedEvents = computed(() => {
     .text {
         margin-bottom: var(--space-lg);
         font-weight: 700;
-        font-size: var(--fs-lg);
+        font-size: 100%;
     }
 }
 
@@ -146,10 +146,10 @@ const chunkedEvents = computed(() => {
         display: flex;
         flex-direction: column;
         .label {
-            font-size: var(--fs-xl);
+            font-size: 100%;
         }
         .url {
-            font-size: var(--fs-xl);
+            font-size: 100%;
             font-weight: 700;
         }
     }

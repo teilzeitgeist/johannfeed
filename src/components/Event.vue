@@ -149,6 +149,7 @@ init();
 </script>
 
 <style lang="scss">
+@import "src/scss/_mixins";
 .event {
     display: flex;
     margin: var(--space-xl);
@@ -172,12 +173,12 @@ init();
     box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.08);
 
     .day {
-        font-size: var(--fs-xxl);
+        font-size: 200%;
         font-weight: 700;
     }
 
     .month {
-        font-size: var(--fs-lg);
+        font-size: 100%;
     }
 }
 
@@ -198,5 +199,17 @@ init();
 
 .event__time {
     font-weight: 500;
+}
+
+@include from($fourk) {
+    .event__date {
+        min-width: 24rem;
+        border-radius: var(--space-md) 0 0 var(--space-md);
+        box-shadow: 8px 0 0 0 rgba(0, 0, 0, 0.08);
+    }
+    .event__infos {
+        gap: var(--space-xl);
+        padding: var(--space-xxl) var(--space-xxl);
+    }
 }
 </style>

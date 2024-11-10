@@ -112,5 +112,8 @@ figure {
 
 // From Desktop
 // -------------------------
-@include from($desktop) {
+@include from($fourk) {
+  body {
+    font-size: $fs-xxxl;
+  }
 }
