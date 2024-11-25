@@ -15,6 +15,7 @@
                     :event="event"
                     :data-index="index"
                     class="event panel"
+                    :colorClass="`event--slide-${(i % 5) + 1}`"
                 />
                 <div class="more-infos">
                     <img src="@/assets/qr-johannstadt.svg">
@@ -47,7 +48,7 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 let events = ref([]);
 
 onMounted(async () => {
-    //const { data } = await axios.get("http://localhost:5173/feed.xml");
+    //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
     const { data } = await axios.get("https://www.johannstadt.de/events/feed");
 
     const xmlParser = new XMLParser();
@@ -137,6 +138,7 @@ const chunkedEvents = computed(() => {
     display: flex;
     align-items: center;
     margin: var(--space-xl);
+    font-size: 200%;
     img {
         margin-right: 8rem;
         height: 70%;

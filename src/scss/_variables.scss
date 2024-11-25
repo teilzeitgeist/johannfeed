@@ -12,16 +12,23 @@ $g5: #959595;
 $g6: #6e6e6e;
 $g7: #333333;
 
+$c3000: #922c86;
+$c4000: #00a197;
+$c5000: #ded906;
+$c6000: #c49b64;
+$c7000: #c092c0;
+$c8000: #82b3cf;
+
 // Scaffolding
 // -------------------------
-$body-bg: white;
+$body-bg: $c8000;
 $text-color: #000;
 $link-color: #0071ef; // Random BF Color (1:4.5)
 $text-max-width: 50rem;
 
 // Font Family
 // -------------------------
-$ff: "OpenSans", sans-serif, Arial, Verdana;
+$ff: "Manrope", sans-serif, Arial, Verdana;
 
 // Font Size (Till Tablet)
 // -------------------------

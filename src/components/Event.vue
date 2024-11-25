@@ -1,6 +1,6 @@
 <template>
-    <div :class="[{'event--longer': isLongEvent}]">
-        <div class="event__date" :class="getCategoryColor()">
+    <div :class="[{'event--longer': isLongEvent}, 'event', colorClass]">
+        <div class="event__date" :class="[colorClass + '__date']">
             <span class="day">{{ day }}</span>
             <span class="month">{{ month }}</span>
         </div>
@@ -12,7 +12,7 @@
                 {{ parseTime() }}
             </div>
             <div class="event__place">
-                {{ parsePlace() }}<br/>
+                <span v-html="parsePlace()"></span><br/>
                 {{ parseStreet() }}
                 <!--{{ parseCategories() }}-->
             </div>
@@ -25,42 +25,7 @@ import {XMLParser} from "fast-xml-parser";
 import dayjs from "dayjs";
 import {ref} from "vue";
 
-const props = defineProps(["event"]);
-
-const categoryColors = [
-    {
-        category: "begegnung",
-        color: "meeting",
-    },
-    {
-        category: "nachbarschaftshilfe",
-        color: "help",
-    },
-    {
-        category: "kurs",
-        color: "course",
-    },
-    {
-        category: "beratung",
-        color: "consulting",
-    },
-    {
-        category: "sport-spiel",
-        color: "game",
-    },
-    {
-        category: "jugendangebot",
-        color: "youth",
-    },
-    {
-        category: "kinderangebot",
-        color: "kids",
-    },
-    {
-        category: "stadtteilspaziergang",
-        color: "walk",
-    },
-];
+const props = defineProps(["event", "colorClass"]);
 
 let meta = props.event.description.split("<br />");
 
@@ -139,22 +104,21 @@ const parseCategories = () => {
     return categories;
 };
 
-const getCategoryColor = () => {
-    const categories = parseCategories();
-    const cat = categoryColors.find((cat) => categories.includes(cat.category));
-    return cat ? cat.color : "none";
-};
-
 init();
 </script>
 
 <style lang="scss">
 @import "src/scss/_mixins";
+@import "src/scss/_variables";
 .event {
     display: flex;
     margin: var(--space-xl);
+    background-color: white;
     align-items: center;
-    box-shadow: 0 0 42px -32px rgba(0, 0, 0, 0.45);
+    border: 4px solid #932c87;
+    border-radius: var(--space-lg);
+    overflow: hidden;
+    padding: 2rem;
 }
 
 .event img {
@@ -168,17 +132,17 @@ init();
     align-items: center;
     min-width: 18rem;
     height: 100%;
-    background-color: #FFF;
-    border-radius: var(--space-xs) 0 0 var(--space-xs);
-    box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.08);
+    background-color: #932c87;
+    color: white;
+    border-radius: var(--space-lg);
 
     .day {
-        font-size: 200%;
+        font-size: 250%;
         font-weight: 700;
     }
 
     .month {
-        font-size: 100%;
+        font-size: 200%;
     }
 }
 
@@ -191,6 +155,7 @@ init();
     border-radius: 0 var(--space-xs) var(--space-xs) 0;
     height: 100%;
     width: 100%;
+    font-size: 100%;
 }
 
 .event__title {
@@ -198,14 +163,40 @@ init();
 }
 
 .event__time {
-    font-weight: 500;
+    font-weight: 700;
+}
+
+$colors: (
+    "slide-1": $c3000,
+    "slide-2": $c4000,
+    "slide-3": $c5000,
+    "slide-4": $c6000,
+    "slide-5": $c7000
+);
+
+// Dynamisch Klassen erzeugen
+@each $name, $color in $colors {
+    .event--#{$name} {
+        border-color: $color; // Rahmenfarbe
+    }
+
+    .event--#{$name}__date {
+        background-color: $color; // Hintergrundfarbe für das Datum
+        color: white; // Textfarbe für Kontrast
+    }
+}
+
+.event--slide-3__date, .event--slide-4__date, .event--slide-5__date {
+    color: black;
 }
 
 @include from($fourk) {
+    .event {
+        border-radius: var(--space-xxl);
+    }
     .event__date {
         min-width: 24rem;
-        border-radius: var(--space-md) 0 0 var(--space-md);
-        box-shadow: 8px 0 0 0 rgba(0, 0, 0, 0.08);
+        border-radius: var(--space-xxl);
     }
     .event__infos {
         gap: var(--space-xl);
