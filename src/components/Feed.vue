@@ -48,8 +48,12 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 let events = ref([]);
 
 onMounted(async () => {
+    // Dynamische Ableitung der Basis-URL
+    const baseURL = `${window.location.protocol}//${window.location.hostname}`;
+    const feedURL = `${baseURL}/events/feed`;
+
     //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
-    const { data } = await axios.get("https://www.johannstadt.de/events/feed");
+    const { data } = await axios.get(feedURL);
 
     const xmlParser = new XMLParser();
     const { rss } = xmlParser.parse(data);
