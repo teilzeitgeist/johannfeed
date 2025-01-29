@@ -7,25 +7,40 @@
             :plugins="plugins"
             @moveStart="onMove"
         >
-        <div v-for="(chunk, i) in chunkedEvents" class="panels" :key="i">
-            <div class="grid-container">
-                <event
-                    v-for="(event, index) in chunk"
-                    :key="event.guid"
-                    :event="event"
-                    :data-index="index"
-                    class="event panel"
-                    :colorClass="`event--slide-${(i % 5) + 1}`"
-                />
-                <div class="more-infos">
-                    <img src="@/assets/qr-johannstadt.svg">
-                    <div class="more-infos__text">
-                        <span class="label">Das ganze Viertel auf</span>
-                        <span class="url">www.johannstadt.de</span>
+            <div v-for="(chunk, i) in chunkedEvents" class="panels" :key="i">
+                <div class="grid-container">
+                    <event
+                        v-for="(event, index) in chunk"
+                        :key="event.guid"
+                        :event="event"
+                        :data-index="index"
+                        class="event panel"
+                        :colorClass="`event--slide-${(i % 5) + 1}`"
+                    />
+                    <div class="more-infos">
+                        <img src="@/assets/qr-johannstadt.svg">
+                        <div class="more-infos__text">
+                            <span class="label">Das ganze Viertel auf</span>
+                            <span class="url">www.johannstadt.de</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Neuer Slide für Instagram Feed -->
+            <div class="panels panels--instagram" :key="'instagram-slide'">
+                <div class="more-infos">
+                    <img src="@/assets/johannstadt.de_qr.png" class="instagram-code" alt="QR-Code zu instagram.com/johannstadt.de">
+                    <div class="more-infos__text">
+                        <span class="label">Folgt uns auch auf Instagram</span>
+                        <span class="url">instagram.com/johannstadt.de</span>
+                    </div>
+                </div>
+                <InstagramFeed
+                    :count="3"
+                    :accessToken="INSTAGRAM_TOKEN"
+                />
+            </div>
         </Flicking>
     </div>
     <div v-else class="empty">
@@ -47,13 +62,15 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 
 let events = ref([]);
 
+const INSTAGRAM_TOKEN = "IGAANKOrzPAP1BZAE5KN1NQQkw2SlE1QkRfcjE2SmtpYk1ETVZAXZAURKNTZAGU0QwS3pCT2ZA4LVlfYURWNXpnVDh4UnZAUc003ZAWU5dVZAGNUExaFBPc09iZAU1JRUp4dVFDNktPdWE4YzVTYUFkVHBCVk9ReGVjS2JQbTJ6ZAFBTTkVScwZDZD";
+
 onMounted(async () => {
     // Dynamische Ableitung der Basis-URL
     const baseURL = `${window.location.protocol}//${window.location.hostname}`;
     const feedURL = `${baseURL}/events/feed`;
 
-    //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
-    const { data } = await axios.get(feedURL);
+    const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
+    //const { data } = await axios.get(feedURL);
 
     const xmlParser = new XMLParser();
     const { rss } = xmlParser.parse(data);
@@ -110,6 +127,9 @@ const chunkedEvents = computed(() => {
     flex: 0 0 100%; /* Füllt den ganzen Slide */
     justify-content: center;
     align-items: center;
+    &.panels--instagram {
+        flex-direction: column;
+    }
 }
 
 /* Kachel-Design innerhalb eines Panels */
@@ -147,6 +167,10 @@ const chunkedEvents = computed(() => {
         margin-right: 8rem;
         height: 70%;
         border-radius: var(--space-xs);
+        &.instagram-code {
+            width: 235px;
+            height: 270px;
+        }
     }
     .more-infos__text {
         display: flex;
