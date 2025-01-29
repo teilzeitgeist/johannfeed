@@ -30,7 +30,7 @@
             <!-- Neuer Slide für Instagram Feed -->
             <div class="panels panels--instagram" :key="'instagram-slide'">
                 <div class="more-infos">
-                    <img src="@/assets/johannstadt.de_qr.png" class="instagram-code" alt="QR-Code zu instagram.com/johannstadt.de">
+                    <img src="@/assets/johannstadt.de_qr.svg" class="instagram-code" alt="QR-Code zu instagram.com/johannstadt.de">
                     <div class="more-infos__text">
                         <span class="label">Folgt uns auch auf Instagram</span>
                         <span class="url">instagram.com/johannstadt.de</span>
@@ -69,8 +69,8 @@ onMounted(async () => {
     const baseURL = `${window.location.protocol}//${window.location.hostname}`;
     const feedURL = `${baseURL}/events/feed`;
 
-    const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
-    //const { data } = await axios.get(feedURL);
+    //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
+    const { data } = await axios.get(feedURL);
 
     const xmlParser = new XMLParser();
     const { rss } = xmlParser.parse(data);
@@ -129,6 +129,10 @@ const chunkedEvents = computed(() => {
     align-items: center;
     &.panels--instagram {
         flex-direction: column;
+
+        .instagram-wrapper {
+            max-width: 100%;
+        }
     }
 }
 
@@ -167,10 +171,6 @@ const chunkedEvents = computed(() => {
         margin-right: 8rem;
         height: 70%;
         border-radius: var(--space-xs);
-        &.instagram-code {
-            width: 235px;
-            height: 270px;
-        }
     }
     .more-infos__text {
         display: flex;
