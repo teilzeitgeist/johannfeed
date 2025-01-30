@@ -44,8 +44,15 @@
         </Flicking>
     </div>
     <div v-else class="empty">
-        <div class="text">Wird geladen</div>
-        <div class="loading-spinner"></div>
+        <div class="text"><span v-if="!isError">Wird geladen</span><span v-else>Leider ist beim Laden ein Fehler aufgetreten. Wir kümmern uns bestimmt bereits darum ;-)</span></div>
+        <div class="more-infos" v-if="isError">
+            <img src="@/assets/qr-johannstadt.svg">
+            <div class="more-infos__text">
+                <span class="label">Das ganze Viertel auf</span>
+                <span class="url">www.johannstadt.de</span>
+            </div>
+        </div>
+        <div class="loading-spinner" v-if="!isError"></div>
     </div>
 </template>
 
@@ -61,6 +68,7 @@ import { AutoPlay, Perspective } from "@egjs/flicking-plugins";
 const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover: false }), new Perspective({ rotate: -1, scale: 2})];
 
 let events = ref([]);
+const isError = ref(false);
 
 const INSTAGRAM_TOKEN = "IGAANKOrzPAP1BZAE5KN1NQQkw2SlE1QkRfcjE2SmtpYk1ETVZAXZAURKNTZAGU0QwS3pCT2ZA4LVlfYURWNXpnVDh4UnZAUc003ZAWU5dVZAGNUExaFBPc09iZAU1JRUp4dVFDNktPdWE4YzVTYUFkVHBCVk9ReGVjS2JQbTJ6ZAFBTTkVScwZDZD";
 
@@ -70,16 +78,22 @@ onMounted(async () => {
     const feedURL = `${baseURL}/events/feed`;
     const MAX_EVENTS = 15;
 
-    //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
-    const { data } = await axios.get(feedURL);
+    try {
+        //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
+        const { data } = await axios.get(feedURL);
+        const xmlParser = new XMLParser();
+        const { rss } = xmlParser.parse(data);
 
-    const xmlParser = new XMLParser();
-    const { rss } = xmlParser.parse(data);
+        events.value = rss.channel.item.slice(0, MAX_EVENTS);
 
-    events.value = rss.channel.item.slice(0, MAX_EVENTS);
+        // Warten, bis die Panels gerendert sind, und dann Animationen starten
+        await nextTick();
+    }
 
-    // Warten, bis die Panels gerendert sind, und dann Animationen starten
-    await nextTick();
+    catch (e) {
+        isError.value = true;
+        console.log(e);
+    }
 });
 
 // Funktion zum Auslösen der Animationen bei Slide-Ende
