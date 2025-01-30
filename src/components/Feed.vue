@@ -68,6 +68,7 @@ onMounted(async () => {
     // Dynamische Ableitung der Basis-URL
     const baseURL = `${window.location.protocol}//${window.location.hostname}`;
     const feedURL = `${baseURL}/events/feed`;
+    const MAX_EVENTS = 15;
 
     //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
     const { data } = await axios.get(feedURL);
@@ -75,7 +76,7 @@ onMounted(async () => {
     const xmlParser = new XMLParser();
     const { rss } = xmlParser.parse(data);
 
-    events.value = rss.channel.item;
+    events.value = rss.channel.item.slice(0, MAX_EVENTS);
 
     // Warten, bis die Panels gerendert sind, und dann Animationen starten
     await nextTick();
