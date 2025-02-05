@@ -3,7 +3,7 @@
         <!-- Flicking-Komponente mit AutoPlay und Animationen -->
         <Flicking
             v-if="chunkedEvents.length > 0"
-            :options="{ defaultIndex: 0, duration: 400, align: 'prev', circular: true }"
+            :options="{ defaultIndex: 0, duration: 400, align: 'prev', circular: true, horizontal: true, adaptive: true, resizeOnContentsReady: true}"
             :plugins="plugins"
             @moveStart="onMove"
         >
@@ -141,9 +141,17 @@ const chunkedEvents = computed(() => {
     display: flex;
     flex: 0 0 100%; /* Füllt den ganzen Slide */
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     &.panels--instagram {
         flex-direction: column;
+        justify-content: flex-start;
+
+        .more-infos {
+            width: 100%;
+            justify-content: center;
+            max-height: 20%;
+            padding-top: var(--space-xl);
+        }
 
         .instagram-wrapper {
             max-width: 100%;
@@ -155,7 +163,9 @@ const chunkedEvents = computed(() => {
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-auto-flow: row;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: var(--space-lg);
+    padding: var(--space-lg);
     position: relative;
     overflow: hidden;
     height: 100dvh;
@@ -180,10 +190,10 @@ const chunkedEvents = computed(() => {
 .more-infos {
     display: flex;
     align-items: center;
-    margin: var(--space-xl);
+    padding: 0 var(--space-xl);
     font-size: 200%;
     img {
-        margin-right: 8rem;
+        margin-right: 4rem;
         height: 70%;
         border-radius: var(--space-xs);
     }

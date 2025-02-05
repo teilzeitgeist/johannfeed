@@ -112,13 +112,12 @@ init();
 @import "src/scss/_variables";
 .event {
     display: flex;
-    margin: var(--space-xl);
     background-color: white;
-    align-items: center;
+    align-items: stretch;
     border: 4px solid #932c87;
     border-radius: var(--space-lg);
-    overflow: hidden;
-    padding: 2rem;
+    padding: var(--space-lg);
+    gap: var(--space-xl);
 }
 
 .event img {
@@ -130,8 +129,7 @@ init();
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 18rem;
-    height: 100%;
+    min-width: 14rem;
     background-color: #932c87;
     color: white;
     border-radius: var(--space-lg);
@@ -150,20 +148,28 @@ init();
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
-    padding: var(--space-md) var(--space-xl);
-    background-color: rgba(255,255,255,0.65);
-    border-radius: 0 var(--space-xs) var(--space-xs) 0;
-    height: 100%;
     width: 100%;
     font-size: 100%;
 }
 
 .event__title {
     font-weight: 700;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
 
 .event__time {
     font-weight: 700;
+}
+
+.event__place {
+    font-size: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
 }
 
 $colors: (
@@ -190,6 +196,14 @@ $colors: (
     color: black;
 }
 
+@include between($fullhd, $fourk) {
+    .event__date {
+    }
+    .event__infos {
+        gap: var(--space-sm);
+    }
+}
+
 @include from($fourk) {
     .event {
         border-radius: var(--space-xxl);
@@ -200,7 +214,7 @@ $colors: (
     }
     .event__infos {
         gap: var(--space-xl);
-        padding: var(--space-xxl) var(--space-xxl);
+        padding-left: var(--space-xxl);
     }
 }
 </style>

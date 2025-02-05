@@ -105,9 +105,12 @@ figure {
 
 // ################################################# MQ #######################################################
 
-// Till Desktop
+// Till FullHD
 // -------------------------
-@include until($desktop) {
+@include between($fullhd, $fourk) {
+  body {
+    font-size: $fs-md;
+  }
 }
 
 // From Desktop
