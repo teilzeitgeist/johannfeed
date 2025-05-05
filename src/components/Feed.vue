@@ -29,17 +29,19 @@
 
             <!-- Neuer Slide für Instagram Feed -->
             <div class="panels panels--instagram" :key="'instagram-slide'">
-                <div class="more-infos">
-                    <img src="@/assets/johannstadt.de_qr.svg" class="instagram-code" alt="QR-Code zu instagram.com/johannstadt.de">
-                    <div class="more-infos__text">
-                        <span class="label">Folgt uns auch auf Instagram</span>
-                        <span class="url">instagram.com/johannstadt.de</span>
+                <div class="instagram-container">
+                    <div class="more-infos">
+                        <img src="@/assets/johannstadt.de_qr.svg" class="instagram-code" alt="QR-Code zu instagram.com/johannstadt.de">
+                        <div class="more-infos__text">
+                            <span class="label">Folgt uns auch auf Instagram</span>
+                            <span class="url">instagram.com/johannstadt.de</span>
+                        </div>
                     </div>
+                    <InstagramFeed
+                        :count="3"
+                        :accessToken="INSTAGRAM_TOKEN"
+                    />
                 </div>
-                <InstagramFeed
-                    :count="3"
-                    :accessToken="INSTAGRAM_TOKEN"
-                />
             </div>
         </Flicking>
     </div>
@@ -70,7 +72,7 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 let events = ref([]);
 const isError = ref(false);
 
-const INSTAGRAM_TOKEN = "IGAANKOrzPAP1BZAE5KN1NQQkw2SlE1QkRfcjE2SmtpYk1ETVZAXZAURKNTZAGU0QwS3pCT2ZA4LVlfYURWNXpnVDh4UnZAUc003ZAWU5dVZAGNUExaFBPc09iZAU1JRUp4dVFDNktPdWE4YzVTYUFkVHBCVk9ReGVjS2JQbTJ6ZAFBTTkVScwZDZD";
+const INSTAGRAM_TOKEN = "IGAANKOrzPAP1BZAE15T0pNeGhhTjNHZAUt6NXRtQWVVM1RienZAMaHZAEemhfc3JyZAmpZAZA3l5N01taE1YSXRoT2pIbmNiNm56dXZABOGNOWDYzd3hFWFFBYURCVk8zZAl96RWFUMkFIRUJaSmw2U3dtN2l3WURpeVlQanhxSWU4NXNONAZDZD";
 
 onMounted(async () => {
     // Dynamische Ableitung der Basis-URL
@@ -79,12 +81,12 @@ onMounted(async () => {
     const MAX_EVENTS = 15;
 
     try {
-        //const { data } = await axios.get("http://localhost:5173/feedapp/feed.xml");
+        //const { data } = await axios.get("http://localhost:5173/feedapp/feed3.xml");
         const { data } = await axios.get(feedURL);
         const xmlParser = new XMLParser();
         const { rss } = xmlParser.parse(data);
 
-        events.value = rss.channel.item.slice(0, MAX_EVENTS);
+        events.value = parseItemsForVisibility(rss.channel.item).slice(0, MAX_EVENTS);
 
         // Warten, bis die Panels gerendert sind, und dann Animationen starten
         await nextTick();
@@ -95,6 +97,14 @@ onMounted(async () => {
         console.log(e);
     }
 });
+
+const parseItemsForVisibility = (items) => {
+    // filter liefert ein neues Array zurück, in dem nur die gewünschten Items bleiben
+    return items.filter(item => {
+        const visibility = item.description?.split('<br />')[6] ?? '';
+        return visibility === 'Ja' || visibility === 'Keine Angabe';
+    });
+};
 
 // Funktion zum Auslösen der Animationen bei Slide-Ende
 const onMove = async (event) => {
@@ -126,6 +136,8 @@ const chunkedEvents = computed(() => {
 </script>
 
 <style lang="scss">
+@import "src/scss/_mixins";
+@import "src/scss/_variables";
 .flicking-viewport {
     width: 100%;
     height: 100%;
@@ -143,20 +155,26 @@ const chunkedEvents = computed(() => {
     justify-content: center;
     align-items: flex-start;
     &.panels--instagram {
-        flex-direction: column;
-        justify-content: flex-start;
-
         .more-infos {
             width: 100%;
             justify-content: center;
-            max-height: 20%;
-            padding-top: var(--space-xl);
+            height: 30%;
+            padding: 0;
         }
 
         .instagram-wrapper {
             max-width: 100%;
+            height: 70%;
+            padding: 0;
         }
     }
+}
+
+.instagram-container {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    padding: var(--space-lg);
 }
 
 /* Kachel-Design innerhalb eines Panels */
@@ -170,7 +188,6 @@ const chunkedEvents = computed(() => {
     overflow: hidden;
     height: 100dvh;
     width: 100%;
-
 }
 
 .empty {
@@ -207,6 +224,13 @@ const chunkedEvents = computed(() => {
             font-size: 100%;
             font-weight: 700;
         }
+    }
+}
+
+@include from($fourk) {
+    .instagram-container, .grid-container {
+        padding: var(--space-xxl);
+        grid-gap: var(--space-xxl);
     }
 }
 </style>

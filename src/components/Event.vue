@@ -14,7 +14,6 @@
             <div class="event__place">
                 <span v-html="parsePlace()"></span><br/>
                 {{ parseStreet() }}
-                <!--{{ parseCategories() }}-->
             </div>
         </div>
     </div>
