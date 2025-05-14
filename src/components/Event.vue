@@ -1,6 +1,7 @@
 <template>
     <div :class="[{'event--longer': isLongEvent}, 'event', colorClass]">
         <div class="event__date" :class="[colorClass + '__date']">
+            <span class="weekday">{{ weekday }}</span>
             <span class="day">{{ day }}</span>
             <span class="month">{{ month }}</span>
         </div>
@@ -33,6 +34,7 @@ let image = meta[4];
 let isImage = image.length > 0;
 
 let day = ref("");
+let weekday = ref("");
 let month = ref(dayjs(props.event.pubDate).format("MMM"));
 let isLongEvent = ref(false);
 
@@ -58,8 +60,11 @@ const parseTime = () => {
         if (timeSplit.length === 4) {
             isLongEvent.value = true;
             const firstDay = dayjs(timeSplit[0], ["D.MMMM YYYY"], "de");
+            const firstWeekDay = firstDay.format('dd');
             const secondDay = dayjs(timeSplit[1], ["D.MMMM YYYY"], "de");
+            const secondWeekDay = secondDay.format('dd');
             day.value = firstDay.date() + " – " + secondDay.date();
+            weekday.value = firstWeekDay + " – " + secondWeekDay;
 
             if (!firstDay.isSame(secondDay, "month")) {
                 month.value = firstDay.format("MMM") + " - " + secondDay.format("MMM");
@@ -67,6 +72,7 @@ const parseTime = () => {
             time = timeSplit[2] + " – " + timeSplit[3];
         } else {
             day.value = dayjs(props.event.pubDate).date().toString();
+            weekday.value = dayjs(props.event.pubDate).format('dd');
             time = timeSplit[1] + " – " + timeSplit[2];
         }
     }
@@ -141,6 +147,10 @@ init();
     .month {
         font-size: 200%;
     }
+}
+
+.event--longer .event__date .month {
+    font-size: 140%;
 }
 
 .event__infos {
