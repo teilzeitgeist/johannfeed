@@ -135,6 +135,7 @@ init();
     justify-content: center;
     align-items: center;
     min-width: 14rem;
+    line-height: 1.2;
     background-color: #932c87;
     color: white;
     border-radius: var(--space-lg);
