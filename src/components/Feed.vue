@@ -72,7 +72,7 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 let events = ref([]);
 const isError = ref(false);
 
-const INSTAGRAM_TOKEN = "IGAANKOrzPAP1BZAE15T0pNeGhhTjNHZAUt6NXRtQWVVM1RienZAMaHZAEemhfc3JyZAmpZAZA3l5N01taE1YSXRoT2pIbmNiNm56dXZABOGNOWDYzd3hFWFFBYURCVk8zZAl96RWFUMkFIRUJaSmw2U3dtN2l3WURpeVlQanhxSWU4NXNONAZDZD";
+const INSTAGRAM_TOKEN = "IGAANKOrzPAP1BZAFAyaDlyS0daRERDRWt3RlhEVVhraEFMXzVqaVk0VFhlWTJ0LUo4OGJHRkk1Y0d1OUJmaVczMmxrY2g3LWRWX29JSnR2T0JmMHRRbGZA3ZAmUxN2N5dEgtb18zSWxxME1yY1FjcW9mT29nNGNxSTRSLWZANZA0lsRQZDZD";
 
 onMounted(async () => {
     // Dynamische Ableitung der Basis-URL
