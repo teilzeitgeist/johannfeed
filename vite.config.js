@@ -21,5 +21,7 @@ export default defineConfig(({ mode }) => {
         "@": paths.src,
       },
     },
+    // Kopiere admin.html und api-Ordner ins dist-Verzeichnis
+    publicDir: 'public',
   };
 });

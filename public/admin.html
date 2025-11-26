@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Token Admin - Johannstadt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: monospace;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .message.show {
+            display: block;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #0c5460;
+        }
+        
+        .current-token {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .current-token h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .current-token code {
+            display: block;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            word-break: break-all;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Instagram Token Admin</h1>
+        <p class="subtitle">Johannstadt.de Feed</p>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="current-token" id="currentTokenBox" style="display: none;">
+            <h3>Aktueller Token:</h3>
+            <code id="currentToken"></code>
+        </div>
+        
+        <div class="info-box">
+            ℹ️ Hier kannst du den Instagram Access Token aktualisieren, ohne dass der Code neu gebaut werden muss.
+        </div>
+        
+        <form id="tokenForm">
+            <div class="form-group">
+                <label for="password">Passwort</label>
+                <input type="password" id="password" required placeholder="Admin-Passwort eingeben">
+            </div>
+            
+            <div class="form-group">
+                <label for="token">Instagram Access Token</label>
+                <textarea id="token" required placeholder="IGAANKOrzPAP1BZA..."></textarea>
+            </div>
+            
+            <button type="submit" id="submitBtn">Token aktualisieren</button>
+        </form>
+    </div>
+
+    <script>
+        const API_URL = './api/token.php';
+        const form = document.getElementById('tokenForm');
+        const messageEl = document.getElementById('message');
+        const submitBtn = document.getElementById('submitBtn');
+        const currentTokenBox = document.getElementById('currentTokenBox');
+        const currentTokenEl = document.getElementById('currentToken');
+
+        // Aktuellen Token laden
+        async function loadCurrentToken() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                if (data.token) {
+                    currentTokenEl.textContent = data.token;
+                    currentTokenBox.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Fehler beim Laden des Tokens:', error);
+            }
+        }
+
+        function showMessage(text, type) {
+            messageEl.textContent = text;
+            messageEl.className = `message ${type} show`;
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 5000);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const token = document.getElementById('token').value.trim();
+            
+            if (!token) {
+                showMessage('Bitte einen Token eingeben', 'error');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Wird gespeichert...';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password, token })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('✅ Token erfolgreich aktualisiert!', 'success');
+                    document.getElementById('password').value = '';
+                    document.getElementById('token').value = '';
+                    loadCurrentToken();
+                } else {
+                    showMessage('❌ ' + (data.error || 'Fehler beim Speichern'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Netzwerkfehler: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Token aktualisieren';
+            }
+        });
+
+        // Token beim Laden der Seite abrufen
+        loadCurrentToken();
+    </script>
+</body>
+</html>

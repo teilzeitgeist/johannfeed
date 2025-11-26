@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Instagram Token (wird über Admin-Panel verwaltet)
+public/api/instagram-token.json

@@ -1,0 +1,11 @@
+# Schütze die Token-Datei vor direktem Zugriff
+<Files "instagram-token.json">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Erlaube nur PHP-Dateien
+<FilesMatch "\.(php)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
