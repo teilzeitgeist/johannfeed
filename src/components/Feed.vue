@@ -18,18 +18,14 @@
                 </div>
             </div>
 
-            <!-- Neuer Slide für Instagram Feed -->
-            <div class="panels panels--instagram" :key="'instagram-slide'">
-                <div class="instagram-container">
-                    <div class="more-infos">
-                        <img src="@/assets/johannstadt.de_qr.svg" class="instagram-code"
-                            alt="QR-Code zu instagram.com/johannstadt.de">
-                        <div class="more-infos__text">
-                            <span class="label">Folgt uns auch auf Instagram</span>
-                            <span class="url">instagram.com/johannstadt.de</span>
-                        </div>
+            <!-- Social Media QR Codes -->
+            <div class="panels panels--social" :key="'social-slide'">
+                <div class="social-container">
+                    <div class="social-qr" v-for="item in socialLinks" :key="item.label">
+                        <img :src="item.qr" :alt="'QR-Code ' + item.label" class="social-qr__image">
+                        <span class="social-qr__label">{{ item.label }}</span>
+                        <span class="social-qr__url">{{ item.url }}</span>
                     </div>
-                    <InstagramFeed v-if="INSTAGRAM_TOKEN" :count="3" :accessToken="INSTAGRAM_TOKEN" />
                 </div>
             </div>
         </Flicking>
@@ -52,6 +48,7 @@
 import { ref, onMounted, computed, nextTick } from "vue";
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
+import QRCode from "qrcode";
 import Event from "@/components/Event.vue";
 import Flicking from "@egjs/vue3-flicking";
 import { AutoPlay, Perspective } from "@egjs/flicking-plugins";
@@ -61,24 +58,30 @@ const plugins = [new AutoPlay({ duration: 30000, direction: "NEXT", stopOnHover:
 
 let events = ref([]);
 const isError = ref(false);
-const INSTAGRAM_TOKEN = ref("");
+const socialLinks = ref([]);
+
+const SOCIAL_ACCOUNTS = [
+    { label: "Instagram", url: "instagram.com/johannstadt.de", href: "https://www.instagram.com/johannstadt.de" },
+    { label: "Facebook",  url: "facebook.com/johannstadt",     href: "https://www.facebook.com/profile.php?id=61560088477967" },
+    { label: "WhatsApp",  url: "WhatsApp-Kanal",               href: "https://whatsapp.com/channel/0029VaFiRJzHgZWYUzggj81S" },
+];
 
 onMounted(async () => {
     // Dynamische Ableitung der Basis-URL
     const baseURL = `${window.location.protocol}//${window.location.hostname}`;
     const feedURL = `${baseURL}/events/feed`;
-    const tokenURL = `${baseURL}/feedapp/api/token.php`;
     const MAX_EVENTS = 15;
 
-    try {
-        // Instagram Token laden
-        try {
-            const tokenResponse = await axios.get(tokenURL);
-            INSTAGRAM_TOKEN.value = tokenResponse.data.token || "";
-        } catch (tokenError) {
-            console.warn("Instagram Token konnte nicht geladen werden:", tokenError);
-        }
+    // QR-Codes generieren
+    const qrOptions = { width: 400, margin: 0, version: 5, errorCorrectionLevel: 'L', color: { dark: "#000000", light: "#ffffff" } };
+    socialLinks.value = await Promise.all(
+        SOCIAL_ACCOUNTS.map(async (item) => ({
+            ...item,
+            qr: await QRCode.toDataURL(item.href, qrOptions),
+        }))
+    );
 
+    try {
         // Events laden
         //const { data } = await axios.get("http://localhost:5173/feedapp/feed3.xml");
         const { data } = await axios.get(feedURL);
@@ -156,27 +159,44 @@ const chunkedEvents = computed(() => {
     justify-content: center;
     align-items: flex-start;
 
-    &.panels--instagram {
-        .more-infos {
-            width: 100%;
-            justify-content: center;
-            height: 30%;
-            padding: 0;
-        }
-
-        .instagram-wrapper {
-            max-width: 100%;
-            height: 70%;
-            padding: 0;
-        }
-    }
 }
 
-.instagram-container {
+.social-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xxxl);
     height: 100dvh;
-    padding: var(--space-lg);
+    padding: var(--space-xxl);
+}
+
+.social-qr {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+
+    &__image {
+        width: 35dvh;
+        height: 35dvh;
+        border-radius: var(--space-lg);
+        background: white;
+        padding: var(--space-md);
+        box-sizing: border-box;
+    }
+
+    &__label {
+        font-size: 200%;
+        font-weight: 700;
+    }
+
+    &__url {
+        font-size: 130%;
+        opacity: 0.7;
+    }
 }
 
 /* Kachel-Design innerhalb eines Panels */
@@ -235,11 +255,16 @@ const chunkedEvents = computed(() => {
 }
 
 @include from($fourk) {
-
-    .instagram-container,
     .grid-container {
         padding: var(--space-xxl);
         grid-gap: var(--space-xxl);
+    }
+
+    .social-qr {
+        &__image {
+            width: 40dvh;
+            height: 40dvh;
+        }
     }
 }
 </style>
